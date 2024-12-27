@@ -30,10 +30,16 @@
         android:hint="title" />
 
     <EditText
-        android:id="@+id/et_travel_address"
+        android:id="@+id/et_travel_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="address" />
+        android:hint="place" />
+
+    <EditText
+        android:id="@+id/et_travel_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="date" />
 
     <EditText
         android:id="@+id/et_travel_tags"
@@ -42,10 +48,10 @@
         android:hint="tags" />
 
     <EditText
-        android:id="@+id/et_travel_description"
+        android:id="@+id/et_travel_memo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="description"
+        android:hint="memo"
         android:layout_marginBottom="16dp" />
 
     <Button
@@ -53,5 +59,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save" />
+
 
 </LinearLayout>

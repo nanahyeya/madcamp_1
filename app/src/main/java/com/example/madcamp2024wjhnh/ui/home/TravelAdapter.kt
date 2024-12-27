@@ -115,6 +115,11 @@ class TravelAdapter(
     private val travels: List<Travel>
 ) : RecyclerView.Adapter<TravelAdapter.TravelViewHolder>() {
 
+    fun updateData(newTravels: List<Travel>) {
+        this.travels = newTravels
+        notifyDataSetChanged()
+    }
+
     class TravelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photoImageView: ImageView = itemView.findViewById(R.id.iv_photo)
         val titleTextView: TextView = itemView.findViewById(R.id.tv_title)

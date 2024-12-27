@@ -8,6 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.madcamp2024wjhnh.databinding.ActivityMainBinding
+import com.example.madcamp2024wjhnh.data.Travel
+import com.example.madcamp2024wjhnh.ui.home.HomeFragment
 import com.naver.maps.map.NaverMapSdk
 import android.widget.Toast
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         // Naver Map 인증 실패 리스너 등록
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient("xzzsdlxqnz")
@@ -28,11 +31,12 @@ class MainActivity : AppCompatActivity() {
                 // 인증 실패 처리
                 handleAuthFailed(exception)
             }
+
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        // Passing each menu ID as a set of Ids because each menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
@@ -40,8 +44,21 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
     }
+
+    // 여행 데이터 추가 기능
+    fun addNewTravelToHome(travel: Travel) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+        val homeFragment = navHostFragment?.childFragmentManager?.fragments
+            ?.find { it is HomeFragment } as? HomeFragment
+
+        if (homeFragment != null) {
+            homeFragment.addNewTravel(travel)
+        } else {
+            android.util.Log.e("MainActivity", "HomeFragment not found")
+        }
+    }
+
     private fun handleAuthFailed(exception: NaverMapSdk.AuthFailedException) {
         // Logcat에 에러 메시지 출력
         android.util.Log.e(
@@ -56,7 +73,4 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         ).show()
     }
-
-
-
 }

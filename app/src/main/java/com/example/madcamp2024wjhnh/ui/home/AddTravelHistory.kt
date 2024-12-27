@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.madcamp2024wjhnh.R
+import com.example.madcamp2024wjhnh.data.DayInfo
 import com.example.madcamp2024wjhnh.data.Travel
 import com.example.madcamp2024wjhnh.databinding.DialogTravelclickDetailBinding
 
@@ -59,32 +60,33 @@ class AddTravelHistory : Fragment() {
         }
     }
 
+
     private fun saveTravelHistory() {
         val title = binding.etTravelTitle.text.toString()
-        val address = binding.etTravelAddress.text.toString()
+        val place = binding.etTravelPlace.text.toString()
+        val date = binding.etTravelDate.text.toString()
         val tags = binding.etTravelTags.text.toString()
-        val description = binding.etTravelDescription.text.toString()
+        val memo = binding.etTravelMemo.text.toString()
 
+        val tagsList = tags.split("#").map { it.trim() }.filter { it.isNotEmpty() }
 
-        if (selectedImageUri == null || title.isEmpty() || address.isEmpty() || description.isEmpty()) {
+        if (selectedImageUri == null || title.isEmpty() || place.isEmpty() || date.isEmpty() || tags.isEmpty() || memo.isEmpty()) {
             Toast.makeText(requireContext(), "모든 필드를 채우세요", Toast.LENGTH_SHORT).show()
             return
         }
 
         val newTravel = Travel(
             title = title,
-            address = address,
-            tags = tags,
-            description = description,
-            photoUri = selectedImageUri,
-            photoListday1 = emptyList(),
-            photoListday2 = emptyList()
+            place = place,
+            date = date,
+            tags = tagsList,
+            memo = memo,
+            thumbnail = selectedImageUri.toString()
         )
 
-        // 결과 전달 및 현재 프래그먼트 종료
-        (activity as? HomeFragment)?.addNewTravel(newTravel)
+        // HomeFragment로 데이터 전달
+        (activity as? HomeActivity)?.addNewTravelToHome(newTravel)
         requireActivity().supportFragmentManager.popBackStack()
-
     }
 
     override fun onDestroyView() {
